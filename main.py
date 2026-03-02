@@ -4,10 +4,11 @@ from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip() 
-WEBAPP_URL = os.getenv("WEBAPP_URL", "").strip()  
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+WEBAPP_URL = os.getenv("WEBAPP_URL", "").strip()  # es: https://tuosito.netlify.app
+
 admin_env = os.getenv("ADMIN_CHAT_ID", "").strip()
-ADMIN_CHAT_ID = int(admin_env) if admin_env.isdigit() else 0  # il tuo chat id numerico
+ADMIN_CHAT_ID = int(admin_env) if admin_env.isdigit() else 0
 
 def money_eur(n: float) -> str:
     try:
@@ -19,7 +20,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not WEBAPP_URL:
         await update.message.reply_text(
             "⚠️ WEBAPP_URL non configurato.\n"
-            "Metti il link del sito (Netlify) nella variabile WEBAPP_URL sul deploy."
+            "Metti il link del sito (Netlify) nella variabile WEBAPP_URL su Render."
         )
         return
 
@@ -32,7 +33,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def my_id(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         f"Il tuo chat_id è: {update.effective_chat.id}\n"
-        "Copia questo numero e mettilo in ADMIN_CHAT_ID sul deploy."
+        "Copia questo numero e mettilo in ADMIN_CHAT_ID su Render."
     )
 
 async def on_webapp_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -83,7 +84,7 @@ async def on_webapp_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 def build_app() -> Application:
     if not BOT_TOKEN:
-        raise RuntimeError("BOT_TOKEN mancante. Impostalo come variabile d'ambiente.")
+        raise RuntimeError("BOT_TOKEN mancante. Impostalo come variabile d'ambiente su Render.")
     app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("id", my_id))
