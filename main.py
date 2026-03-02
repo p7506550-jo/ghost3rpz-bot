@@ -18,13 +18,18 @@ def money_eur(n: float) -> str:
         return f"€{n}"
 
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if not WEBAPP_URL:
-        await update.message.reply_text(
-            "⚠️ WEBAPP_URL non configurato.\n"
-            "Metti il link del sito (Netlify) nella variabile WEBAPP_URL su Render."
-        )
-        return
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    kb = [
+        [InlineKeyboardButton("🛍 Catalogo", callback_data="cats")],
+        [InlineKeyboardButton("📋 Menu disponibile", callback_data="menu_today")],
+        [InlineKeyboardButton("💬 Contattami", callback_data="contact")],
+        [InlineKeyboardButton("ℹ️ Info", callback_data="info")],
+        [InlineKeyboardButton("🚚 Delivery", callback_data="delivery")],
+    ]
+    await update.message.reply_text(
+        "GhOST3RPz5s • Benvenuto\n\nScegli cosa vuoi fare:",
+        reply_markup=InlineKeyboardMarkup(kb),
+    )
 
     kb = [[InlineKeyboardButton("🛒 Apri catalogo", web_app=WebAppInfo(url=WEBAPP_URL))]]
     await update.message.reply_text(
