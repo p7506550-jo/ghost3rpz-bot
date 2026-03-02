@@ -1,2 +1,2 @@
 # ghost3rpz-bot
-nulla è in vendita, solo a scopo informativo.
+Contenuti esposti solo a scopo informativo. Declino ogni responsabilità per eventuali errori, omissioni o utilizzi impropri
