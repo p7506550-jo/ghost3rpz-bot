@@ -5,16 +5,18 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppI
 from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
-WEBAPP_URL = os.getenv("WEBAPP_URL", "").strip()  # es: https://tuosito.netlify.app
+WEBAPP_URL = os.getenv("WEBAPP_URL", "").strip()
 
 admin_env = os.getenv("ADMIN_CHAT_ID", "").strip()
 ADMIN_CHAT_ID = int(admin_env) if admin_env.isdigit() else 0
+
 
 def money_eur(n: float) -> str:
     try:
         return f"€{n:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
     except Exception:
         return f"€{n}"
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not WEBAPP_URL:
@@ -30,11 +32,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         reply_markup=InlineKeyboardMarkup(kb),
     )
 
+
 async def my_id(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         f"Il tuo chat_id è: {update.effective_chat.id}\n"
         "Copia questo numero e mettilo in ADMIN_CHAT_ID su Render."
     )
+
 
 async def on_webapp_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     msg = update.message
@@ -82,6 +86,7 @@ async def on_webapp_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
     await msg.reply_text("✅ Ordine ricevuto! Ti rispondiamo a breve.")
 
+
 def build_app() -> Application:
     if not BOT_TOKEN:
         raise RuntimeError("BOT_TOKEN mancante. Impostalo come variabile d'ambiente su Render.")
@@ -90,6 +95,7 @@ def build_app() -> Application:
     app.add_handler(CommandHandler("id", my_id))
     app.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, on_webapp_data))
     return app
+
 
 if __name__ == "__main__":
     build_app().run_polling(allowed_updates=Update.ALL_TYPES)
