@@ -6,7 +6,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, ContextTyp
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 WEBAPP_URL = os.getenv("WEBAPP_URL", "").strip()  # es: https://tuosito.netlify.app
-ADMIN_CHAT_ID = int(os.getenv("ADMIN_CHAT_ID", "0"))  # il tuo chat id numerico
+admin_env = os.getenv("ADMIN_CHAT_ID", "").strip()
+ADMIN_CHAT_ID = int(admin_env) if admin_env.isdigit() else 0  # il tuo chat id numerico
 
 def money_eur(n: float) -> str:
     try:
