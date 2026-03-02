@@ -4,8 +4,8 @@ from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip() 8648770751: AAGoP5UJ-Tm3pLlKM7UAomJZuQKevruOnFQ
-WEBAPP_URL = os.getenv("WEBAPP_URL", "").strip()  https://enchanting-cat-c07c78.netlify.app/
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip() 
+WEBAPP_URL = os.getenv("WEBAPP_URL", "").strip()  
 admin_env = os.getenv("ADMIN_CHAT_ID", "").strip()
 ADMIN_CHAT_ID = int(admin_env) if admin_env.isdigit() else 0  # il tuo chat id numerico
 
